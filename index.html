@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat App</title>
-    <script type="module">
-        import openai from 'https://cdn.jsdelivr.net/npm/openai@3.3.0/+esm'
-    </script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/openai@3.3.0/+esm"></script>
 </head>
 <body>
     <div>
         <label for="openai-key">API key</label>
         <input type="text" id="openai-key" placeholder="Enter the API key...">
-        <button id="openai-key-submit" onclick="handleOpenaiKeySubmit()">Submit</button>
+        <button id="openai-key-submit">Submit</button>
     </div>
     <div id="chat-history">
 
@@ -21,13 +19,37 @@
         <button id="chat-submit">Submit</button>
     </div>
 
-    <script>
+    <script type="module">
+        import openai from "https://cdn.jsdelivr.net/npm/openai@3.3.0/+esm";
+
         let apiKey = null;
 
         function handleOpenaiKeySubmit() {
-            const key = document.getElementById('openai-key').value;
+            const key = document.getElementById("openai-key").value;
             apiKey = key;
         }
+
+        document.getElementById("openai-key-submit").addEventListener("click", handleOpenaiKeySubmit);
+
+        async function handleChatSubmit() {
+            const message = document.getElementById("chat-input").value;
+
+            const configuration = new openai.Configuration({
+                apiKey: apiKey,
+            });
+            const openai_api = new openai.OpenAIApi(configuration);
+
+            const chatCompletion = await openai_api.createChatCompletion({
+                model: "gpt-3.5-turbo",
+                messages: [{role: "user", content: message}],
+            });
+
+            const response = chatCompletion.data.choices[0].message;
+
+            console.log(response);
+        }
+
+        document.getElementById("chat-submit").addEventListener("click", handleChatSubmit);
     </script>
 </body>
 </html>
