@@ -13,6 +13,7 @@
     <div>
         <label for="chat-system">System Prompt</label>
         <input type="text" id="chat-system" placeholder="Enter the system prompt...">
+        <button id="chat-system-submit">Submit</button>
     </div>
     <div id="chat-history"></div>
     <div>
@@ -40,7 +41,11 @@
         function handleChatSystemSubmit() {
             const system = document.getElementById("chat-system").value;
             history = [{role: "system", content: system}];
+
+            document.getElementById("chat-history").innerHTML = "";
         }
+
+        document.getElementById("chat-system-submit").addEventListener("click", handleChatSystemSubmit);
 
         document.getElementById("chat-system").addEventListener("keydown", function(event) {
             if (event.keyCode === 13) {
@@ -57,7 +62,6 @@
 
         async function handleChatSubmit() {
             handleOpenaiKeySubmit();
-            handleChatSystemSubmit();
 
             const message = document.getElementById("chat-input").value;
             document.getElementById("chat-input").value = "";
@@ -81,8 +85,6 @@
 
             history.push(response);
         }
-
-
 
         document.getElementById("chat-submit").addEventListener("click", handleChatSubmit);
 
