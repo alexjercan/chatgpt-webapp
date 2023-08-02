@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat App</title>
-    <script src="https://cdn.jsdelivr.net/npm/openai@3.3.0/dist/index.min.js"></script>
+    <script type="module">
+        import openai from 'https://cdn.jsdelivr.net/npm/openai@3.3.0/+esm'
+    </script>
 </head>
 <body>
     <div>
         <label for="openai-key">API key</label>
         <input type="text" id="openai-key" placeholder="Enter the API key...">
-        <button id="openai-key-submit">Submit</button>
+        <button id="openai-key-submit" onclick="handleOpenaiKeySubmit()">Submit</button>
     </div>
     <div id="chat-history">
 
@@ -18,5 +20,14 @@
         <input type="text" id="chat-input" placeholder="Enter your message...">
         <button id="chat-submit">Submit</button>
     </div>
+
+    <script>
+        let apiKey = null;
+
+        function handleOpenaiKeySubmit() {
+            const key = document.getElementById('openai-key').value;
+            apiKey = key;
+        }
+    </script>
 </body>
 </html>
